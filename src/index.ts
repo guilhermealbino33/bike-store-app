@@ -1,3 +1,4 @@
+// src/index.ts
 import express from 'express';
 import Shopify, { ApiVersion, AuthQuery } from '@shopify/shopify-api';
 require('dotenv').config();
@@ -12,7 +13,7 @@ Shopify.Context.initialize({
   SCOPES: [SCOPES],
   HOST_NAME: process.env.HOST.replace(/https:\/\//, ""),
   IS_EMBEDDED_APP: false,
-  API_VERSION: ApiVersion.{version} // all supported versions are available, as well as "unstable" and "unversioned"
+  API_VERSION: ApiVersion.Unversioned // all supported versions are available, as well as "unstable" and "unversioned"
 });
 // Storing the currently active shops in memory will force them to re-login when your server restarts. You should
 // persist this object in your app.
