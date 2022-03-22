@@ -11,7 +11,7 @@ Shopify.Context.initialize({
   API_KEY,
   API_SECRET_KEY,
   SCOPES: [SCOPES],
-  HOST_NAME: process.env.HOST.replace(/https:\/\//, ""),
+  HOST_NAME: HOST.replace(/https:\/\//, ""),
   IS_EMBEDDED_APP: false,
   API_VERSION: ApiVersion.Unversioned // all supported versions are available, as well as "unstable" and "unversioned"
 });
