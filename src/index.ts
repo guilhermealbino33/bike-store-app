@@ -13,7 +13,7 @@ Shopify.Context.initialize({
   SCOPES: [SCOPES],
   HOST_NAME: HOST.replace(/https:\/\//, ""),
   IS_EMBEDDED_APP: true,
-  API_VERSION: ApiVersion.January22 // all supported versions are available, as well as "unstable" and "unversioned"
+  API_VERSION: ApiVersion.Unversioned // all supported versions are available, as well as "unstable" and "unversioned"
 });
 // Storing the currently active shops in memory will force them to re-login when your server restarts. You should
 // persist this object in your app.
