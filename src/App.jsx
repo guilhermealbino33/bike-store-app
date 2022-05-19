@@ -16,8 +16,8 @@ import { AppProvider as PolarisProvider } from "@shopify/polaris";
 import translations from "@shopify/polaris/locales/en.json";
 import "@shopify/polaris/build/esm/styles.css";
 
-import { EmptyStatePage } from "./components/EmptyStatePage";
-import { ProductsPage } from "./components/ProductsPage";
+import { EmptyStatePage } from "./pages/EmptyStatePage";
+import { ProductsPage } from "./pages/ProductsPage";
 
 export default function App() {
   const [selection, setSelection] = useState([]);

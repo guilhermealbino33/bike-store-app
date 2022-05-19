@@ -2,7 +2,7 @@
 import { resolve } from "path";
 import express from "express";
 import cookieParser from "cookie-parser";
-import { Shopify, ApiVersion } from "@shopify/shopify-api";
+import { Shopify, ApiVersion, DeliveryMethod } from "@shopify/shopify-api";
 import "dotenv/config";
 
 import applyAuthMiddleware from "./middleware/auth.js";
@@ -31,7 +31,7 @@ const ACTIVE_SHOPIFY_SHOPS = {};
 Shopify.Webhooks.Registry.addHandler("APP_UNINSTALLED", {
   path: "/webhooks",
   webhookHandler: async (topic, shop, body) => {
-    delete ACTIVE_SHOPIFY_SHOPS[shop]
+    delete ACTIVE_SHOPIFY_SHOPS[shop];
   },
 });
 
