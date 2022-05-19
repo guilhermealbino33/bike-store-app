@@ -1,8 +1,8 @@
 import { gql, useQuery } from "@apollo/client";
 import { Page, Layout, Banner, Card } from "@shopify/polaris";
 import { Loading } from "@shopify/app-bridge-react";
-import { ProductsList } from "./ProductsList";
-import { ApplyRandomPrices } from "./ApplyRandomPrices";
+import { ProductsList } from "../components/ProductsList";
+import { ApplyRandomPrices } from "../components/ApplyRandomPrices";
 
 // GraphQL query to retrieve products by IDs.
 // The price field belongs to the variants object because
@@ -38,28 +38,28 @@ const GET_PRODUCTS_BY_ID = gql`
 `;
 
 export function ProductsPage({ productIds }) {
-    const { loading, error, data, refetch } = useQuery(GET_PRODUCTS_BY_ID, {
-        variables: { ids: productIds },
-    });
-    if (loading) return <Loading />;
+  const { loading, error, data, refetch } = useQuery(GET_PRODUCTS_BY_ID, {
+    variables: { ids: productIds },
+  });
+  if (loading) return <Loading />;
 
-    if (error) {
-        console.warn(error);
-        return (
-            <Banner status="critical">There was an issue loading products.</Banner>
-        );
-    }
-
+  if (error) {
+    console.warn(error);
     return (
-        <Page>
-            <Layout>
-                <Layout.Section>
-                    <Card>
-                        <ProductsList data={data} />
-                    </Card>
-                    <ApplyRandomPrices selectedItems={data.nodes} onUpdate={refetch} />
-                </Layout.Section>
-            </Layout>
-        </Page>
+      <Banner status="critical">There was an issue loading products.</Banner>
     );
+  }
+
+  return (
+    <Page breadcrumbs= {[{content: 'Select Products', url: '/'}]}>
+      <Layout>
+        <Layout.Section>
+          <Card>
+            <ProductsList data={data} />
+          </Card>
+          <ApplyRandomPrices selectedItems={data.nodes} onUpdate={refetch} />
+        </Layout.Section>
+      </Layout>
+    </Page>
+  );
 }
