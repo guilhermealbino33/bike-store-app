@@ -2,6 +2,7 @@ import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { NavBar } from "../components";
 import { HomePage, EmptyStatePage } from "../pages";
+import { MyProvider } from "./provider";
 
 function App() {
   return (
@@ -14,5 +15,6 @@ function App() {
     </Router>
   );
 }
+
 
 export default App;

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Page, Layout, EmptyState } from "@shopify/polaris";
+import { Page, Layout, EmptyState, Card } from "@shopify/polaris";
 import { ResourcePicker, TitleBar } from "@shopify/app-bridge-react";
 
 const img = 'https://cdn.shopify.com/s/files/1/0757/9955/files/empty-state.svg';
@@ -26,6 +26,7 @@ export function EmptyStatePage({ setSelection }) {
                 onCancel={() => setOpen(false)}
             />
             <Layout>
+
                 <EmptyState
                     heading="Discount your products temporarily"
                     action={{
@@ -34,10 +35,15 @@ export function EmptyStatePage({ setSelection }) {
                     }}
                     image={img}
                     imageContained
-                >
-                    <p>Select products to change their price temporarily.</p>
+                    >
+                
                 </EmptyState>
             </Layout>
+            <Card title="This is a test card." sectioned>
+                
+                <p>Select products to change their price temporarily.</p>
+            </Card>
+                    
         </Page>
     );
 }

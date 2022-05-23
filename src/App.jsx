@@ -31,6 +31,7 @@ export default function App() {
         }}
       >
         <MyProvider>
+          
           {selection.length > 0 ? (
             <ProductsPage productIds={selection} />
           ) : (
@@ -44,7 +45,6 @@ export default function App() {
 
 function MyProvider({ children }) {
   const app = useAppBridge();
-
   const client = new ApolloClient({
     cache: new InMemoryCache(),
     link: new HttpLink({
@@ -52,13 +52,12 @@ function MyProvider({ children }) {
       fetch: userLoggedInFetch(app),
     }),
   });
-
   return <ApolloProvider client={client}>{children}</ApolloProvider>;
 }
 
 export function userLoggedInFetch(app) {
   const fetchFunction = authenticatedFetch(app);
-
+    
   return async (uri, options) => {
     const response = await fetchFunction(uri, options);
 
@@ -77,3 +76,4 @@ export function userLoggedInFetch(app) {
     return response;
   };
 }
+

@@ -145,7 +145,6 @@ export async function createServer(
         .send(fs.readFileSync(`${process.cwd()}/dist/client/index.html`));
     });
   }
-
   return { app, vite };
 }
 
