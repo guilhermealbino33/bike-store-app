@@ -1,5 +1,3 @@
-import { useState } from "react";
-
 import {
   ApolloClient,
   ApolloProvider,
@@ -8,43 +6,50 @@ import {
 } from "@apollo/client";
 import {
   Provider as AppBridgeProvider,
-  useAppBridge,
+  useAppBridge
 } from "@shopify/app-bridge-react";
 import { authenticatedFetch } from "@shopify/app-bridge-utils";
 import { Redirect } from "@shopify/app-bridge/actions";
 import { AppProvider as PolarisProvider } from "@shopify/polaris";
 import translations from "@shopify/polaris/locales/en.json";
 import "@shopify/polaris/build/esm/styles.css";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 
-import { EmptyStatePage } from "./pages/EmptyStatePage";
-import { ProductsPage } from "./pages/ProductsPage";
+import { ProductsList } from "./components/ProductsList";
+import { ProductsItem } from "./components/ProductsItem";
+import Dashboard from "./components/Dashboard/index.js";
+import { CreateProduct } from "./components/CreateProduct";
+import { Navigation } from "./components/Navigation";
 
 export default function App() {
-  const [selection, setSelection] = useState([]);
   return (
-    <PolarisProvider i18n={translations}>
-      <AppBridgeProvider
-        config={{
-          apiKey: process.env.SHOPIFY_API_KEY,
-          host: new URL(location).searchParams.get("host"),
-          forceRedirect: true,
-        }}
-      >
-        <MyProvider>
-          
-          {selection.length > 0 ? (
-            <ProductsPage productIds={selection} />
-          ) : (
-            <EmptyStatePage setSelection={setSelection} />
-          )}
-        </MyProvider>
-      </AppBridgeProvider>
-    </PolarisProvider>
+    <BrowserRouter>
+      <PolarisProvider i18n={translations}>
+        <AppBridgeProvider
+          config={{
+            apiKey: process.env.SHOPIFY_API_KEY,
+            host: new URL(location).searchParams.get("host"),
+            forceRedirect: true,
+          }}
+        >
+          <MyProvider>
+            <Navigation />
+            <Routes>
+              <Route path="/" element={<Dashboard />} />
+              <Route path="/products" element={<ProductsList />} />
+              <Route path="/products/:id" element={<ProductsItem />} />
+              <Route path="/create" element={<CreateProduct />} />
+            </Routes>
+          </MyProvider>
+        </AppBridgeProvider>
+      </PolarisProvider>
+    </BrowserRouter>
   );
 }
 
 function MyProvider({ children }) {
   const app = useAppBridge();
+
   const client = new ApolloClient({
     cache: new InMemoryCache(),
     link: new HttpLink({
@@ -52,12 +57,13 @@ function MyProvider({ children }) {
       fetch: userLoggedInFetch(app),
     }),
   });
+
   return <ApolloProvider client={client}>{children}</ApolloProvider>;
 }
 
 export function userLoggedInFetch(app) {
   const fetchFunction = authenticatedFetch(app);
-    
+
   return async (uri, options) => {
     const response = await fetchFunction(uri, options);
 
@@ -76,4 +82,3 @@ export function userLoggedInFetch(app) {
     return response;
   };
 }
-

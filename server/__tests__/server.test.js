@@ -1,6 +1,6 @@
-import { Shopify } from "@shopify/shopify-api";
-import { createHmac } from "crypto";
 import request from "supertest";
+import { createHmac } from "crypto";
+import { Shopify } from "@shopify/shopify-api";
 import { describe, expect, test, vi } from "vitest";
 
 import { serve } from "./serve.js";
@@ -14,14 +14,19 @@ describe("shopify-app-node server", async () => {
     expect(response.status).toEqual(200);
   });
 
-  test("properly handles nested routes in production mode", async () => {
-    const { app: productionApp } = await serve(process.cwd(), true);
-    const response = await request(productionApp)
-      .get("/something")
-      .set("Accept", "text/html");
+  test.concurrent(
+    "properly handles nested routes in production mode",
+    async () => {
+      const { app: productionApp } = await serve(process.cwd(), true);
 
-    expect(response.status).toEqual(200);
-  }, 10000);
+      const response = await request(productionApp)
+        .get("/something")
+        .set("Accept", "text/html");
+
+      expect(response.status).toEqual(200);
+    },
+    20000
+  );
 
   test("redirects to auth if the app needs to be [re]installed", async () => {
     const response = await request(app)
@@ -76,12 +81,14 @@ describe("shopify-app-node server", async () => {
   });
 
   test("renders toplevel auth page", async () => {
+    const host = btoa("test-shop.myshopify.com/admin");
+
     const response = await request(app)
-      .get("/auth/toplevel?shop=test-shop")
+      .get(`/auth/toplevel?shop=test-shop&host=${host}`)
       .set("Accept", "text/html");
 
     expect(response.status).toEqual(200);
-    expect(response.text).toContain(`shopOrigin: 'test-shop'`);
+    expect(response.text).toContain(`host: '${host}'`);
   });
 
   test("goes through oauth flow if there is a top level cookie", async () => {
@@ -228,6 +235,21 @@ describe("shopify-app-node server", async () => {
 
       expect(response.status).toEqual(500);
       expect(response.text).toContain("test 500 response");
+    });
+
+    test("does not write to response if webhook processing has already output headers", async () => {
+      const consoleSpy = vi.spyOn(console, "log");
+      process.mockImplementationOnce((request, response) => {
+        response.writeHead(400);
+        response.end();
+        throw new Error("something went wrong");
+      });
+
+      const response = await request(app).post("/webhooks");
+
+      expect(response.status).toEqual(400);
+      expect(consoleSpy).toHaveBeenCalled();
+      expect(consoleSpy.mock.lastCall[0]).toContain("something went wrong");
     });
   });
 

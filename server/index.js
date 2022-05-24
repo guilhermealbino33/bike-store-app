@@ -1,9 +1,11 @@
 // @ts-check
 import { resolve } from "path";
 import express from "express";
+import bodyParser from "express";
 import cookieParser from "cookie-parser";
-import { Shopify, ApiVersion, DeliveryMethod } from "@shopify/shopify-api";
+import { Shopify, ApiVersion } from "@shopify/shopify-api";
 import "dotenv/config";
+import axios from "axios";
 
 import applyAuthMiddleware from "./middleware/auth.js";
 import verifyRequest from "./middleware/verify-request.js";
@@ -30,6 +32,7 @@ Shopify.Context.initialize({
 const ACTIVE_SHOPIFY_SHOPS = {};
 Shopify.Webhooks.Registry.addHandler("APP_UNINSTALLED", {
   path: "/webhooks",
+  // @ts-ignore
   webhookHandler: async (topic, shop, body) => {
     delete ACTIVE_SHOPIFY_SHOPS[shop];
   },
@@ -55,11 +58,13 @@ export async function createServer(
       console.log(`Webhook processed, returned status code 200`);
     } catch (error) {
       console.log(`Failed to process webhook: ${error}`);
-      res.status(500).send(error.message);
+      if (!res.headersSent) {
+        res.status(500).send(error.message);
+      }
     }
   });
 
-  app.get("/products-count", verifyRequest(app), async (req, res) => {
+  app.get("/products/count", verifyRequest(app), async (req, res) => {
     const session = await Shopify.Utils.loadCurrentSession(req, res, true);
     const { Product } = await import(
       `@shopify/shopify-api/dist/rest-resources/${Shopify.Context.API_VERSION}/index.js`
@@ -69,6 +74,20 @@ export async function createServer(
     res.status(200).send(countData);
   });
 
+  app.post("/rest", verifyRequest(app), bodyParser.json(), async (req, res) => {
+    const session = await Shopify.Utils.loadCurrentSession(req, res, true);
+
+    try {
+      const { data } = await axios.get(req.body.url, {
+        headers: {
+          'X-Shopify-Access-Token': session.accessToken
+        }
+      });
+      res.status(200).send(data);
+    } catch (error) {
+      res.status(500).send(error);
+    }
+  });
   app.post("/graphql", verifyRequest(app), async (req, res) => {
     try {
       const response = await Shopify.Utils.graphqlProxy(req, res);
@@ -94,12 +113,14 @@ export async function createServer(
   });
 
   app.use("/*", (req, res, next) => {
-    const shop = req.query.shop;
+    const { shop } = req.query;
 
     // Detect whether we need to reinstall the app, any request from Shopify will
     // include a shop in the query parameters.
+    // @ts-ignore
     if (app.get("active-shopify-shops")[shop] === undefined && shop) {
-      res.redirect(`/auth?shop=${shop}`);
+      // @ts-ignore
+      res.redirect(`/auth?${new URLSearchParams(req.query).toString()}`);
     } else {
       next();
     }
@@ -137,6 +158,7 @@ export async function createServer(
     const fs = await import("fs");
     app.use(compression());
     app.use(serveStatic(resolve("dist/client")));
+    // @ts-ignore
     app.use("/*", (req, res, next) => {
       // Client-side routing will pick up on the correct route to render, so we always render the index here
       res
@@ -145,6 +167,7 @@ export async function createServer(
         .send(fs.readFileSync(`${process.cwd()}/dist/client/index.html`));
     });
   }
+
   return { app, vite };
 }
 
