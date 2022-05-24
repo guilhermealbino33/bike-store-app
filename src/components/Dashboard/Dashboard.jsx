@@ -19,6 +19,7 @@ export const Dashboard = ({
   totalProductCount,
   getAllCountProduct,
   getPublishedCountProduct,
+  getAllLocations,
 }) => {
   // Use location
   const location = useLocation();
@@ -29,6 +30,7 @@ export const Dashboard = ({
       navigate(path);
     },
   });
+  console.log("getAllLocations from Dashboard", getAllLocations);
 
   useEffect(() => {
     getAllCountProduct(), getPublishedCountProduct();
@@ -61,10 +63,7 @@ export const Dashboard = ({
         <TextContainer spacing="loose">
           <p> List of current shop's locations </p>
           <DisplayText>
-            <TextStyle variation="strong">
-              {" "}
-              <p>Create a path to show the locations</p>{" "}
-            </TextStyle>
+            <TextStyle variation="strong">{getAllLocations}</TextStyle>
           </DisplayText>
         </TextContainer>
       </Card>
