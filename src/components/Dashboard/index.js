@@ -5,7 +5,6 @@ import { Dashboard } from "./Dashboard.jsx";
 import {
   totalProductCount,
   publishedProductCount,
-  createdAfter16MayProductCount,
 } from "../../store/rootReducer/selectors.js";
 import {
   getAllCountProduct,
@@ -20,7 +19,6 @@ const mapDispatchToProps = {
 const mapStateToProps = createStructuredSelector({
   totalProductCount,
   publishedProductCount,
-  createdAfter16MayProductCount,
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);

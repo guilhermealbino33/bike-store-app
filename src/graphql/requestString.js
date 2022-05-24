@@ -65,10 +65,17 @@ export const UPDATE_CHOSEN_PRODUCT = gql`
   }
 `;
 export const GET_LOCATIONS = gql`
-  query getChosenProduct($id: ID!) {
-    product(id: $id) {
-      title
-      descriptionHtml
+  query getLocations($id: ID!) {
+    shop {
+      name
+    }
+    locations(first: 10) {
+      edges {
+        node {
+          id
+          name
+        }
+      }
     }
   }
 `;
