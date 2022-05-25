@@ -15,11 +15,11 @@ import translations from "@shopify/polaris/locales/en.json";
 import "@shopify/polaris/build/esm/styles.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
-import { ProductsList } from "./components/ProductsList";
 import { ProductsItem } from "./components/ProductsItem";
 import { LocationsPage } from "./pages/LocationsPage";
-import Dashboard from "./components/Dashboard/index.js";
-import { CreateProduct } from "./components/CreateProduct";
+import { CreateProduct } from "./pages/CreateProduct";
+import { ProductsList } from "./pages/ProductsList";
+import Dashboard from "./pages/Dashboard/index.js";
 import { Navigation } from "./components/Navigation";
 
 export default function App() {

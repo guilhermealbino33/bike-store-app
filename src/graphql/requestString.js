@@ -77,3 +77,25 @@ export const GET_LOCATIONS = gql`
     }
   }
 `;
+
+export const GET_VARIANT_BY_ID = gql`
+  query getVariantById($id: ID!) {
+    productVariant(id: $id) {
+      id
+      title
+      inventoryItem {
+        inventoryLevels(first: 10) {
+          edges {
+            node {
+              id
+              available
+              location {
+                name
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`;

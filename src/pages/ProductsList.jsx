@@ -22,7 +22,7 @@ import {
   useRoutePropagation,
   useAppBridge,
 } from "@shopify/app-bridge-react";
-import ErrorBannerComponent from "./ErrorBannerComponent";
+import ErrorBannerComponent from "../components/ErrorBannerComponent";
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 
 // Variable for debouncing function with react hooks
