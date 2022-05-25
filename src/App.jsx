@@ -6,7 +6,7 @@ import {
 } from "@apollo/client";
 import {
   Provider as AppBridgeProvider,
-  useAppBridge
+  useAppBridge,
 } from "@shopify/app-bridge-react";
 import { authenticatedFetch } from "@shopify/app-bridge-utils";
 import { Redirect } from "@shopify/app-bridge/actions";
@@ -17,6 +17,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 import { ProductsList } from "./components/ProductsList";
 import { ProductsItem } from "./components/ProductsItem";
+import { LocationsPage } from "./pages/LocationsPage";
 import Dashboard from "./components/Dashboard/index.js";
 import { CreateProduct } from "./components/CreateProduct";
 import { Navigation } from "./components/Navigation";
@@ -39,6 +40,7 @@ export default function App() {
               <Route path="/products" element={<ProductsList />} />
               <Route path="/products/:id" element={<ProductsItem />} />
               <Route path="/create" element={<CreateProduct />} />
+              <Route path="/locations" element={<LocationsPage />} />
             </Routes>
           </MyProvider>
         </AppBridgeProvider>

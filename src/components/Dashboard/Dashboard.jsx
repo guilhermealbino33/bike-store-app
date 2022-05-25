@@ -59,14 +59,6 @@ export const Dashboard = ({
           </DisplayText>
         </TextContainer>
       </Card>
-      <Card title="Locations" sectioned>
-        <TextContainer spacing="loose">
-          <p> List of current shop's locations </p>
-          <DisplayText>
-            <TextStyle variation="strong">{getAllLocations}</TextStyle>
-          </DisplayText>
-        </TextContainer>
-      </Card>
     </Page>
   );
 };

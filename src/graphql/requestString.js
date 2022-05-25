@@ -65,15 +65,13 @@ export const UPDATE_CHOSEN_PRODUCT = gql`
   }
 `;
 export const GET_LOCATIONS = gql`
-  query getLocations($id: ID!) {
-    shop {
-      name
-    }
+  query {
     locations(first: 10) {
-      edges {
-        node {
-          id
-          name
+      nodes {
+        id
+        name
+        address {
+          address1
         }
       }
     }
