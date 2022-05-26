@@ -2,7 +2,7 @@ import { useQuery } from "@apollo/client";
 import { Page, Layout, Banner, Card } from "@shopify/polaris";
 import { Loading } from "@shopify/app-bridge-react";
 
-import { GET_LOCATIONS } from "../graphql/requestString";
+import { GET_LOCATIONS } from "../graphql";
 import { Location } from "../components/Location";
 import { useState } from "react";
 import { useParams } from "react-router-dom";

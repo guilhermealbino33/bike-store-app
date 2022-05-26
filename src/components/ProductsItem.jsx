@@ -17,10 +17,7 @@ import {
   TextField,
   Banner,
 } from "@shopify/polaris";
-import {
-  GET_CHOSEN_PRODUCT,
-  UPDATE_CHOSEN_PRODUCT,
-} from "../graphql/requestString";
+import { GET_CHOSEN_PRODUCT, UPDATE_CHOSEN_PRODUCT } from "../graphql";
 
 export const ProductsItem = () => {
   const [idNumber] = useState(useParams().id);

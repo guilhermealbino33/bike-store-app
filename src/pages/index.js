@@ -1,7 +1,5 @@
-import ProductsList from "./ProductsList";
-import ProductsPage from "./ProductsPage";
-import CreateProduct from "./CreateProduct";
-import LocationsPage from "./LocationsPage";
-import Dashboard from "./Dashboard/Dashboard";
-
-export { ProductsList, ProductsPage, CreateProduct, LocationsPage, Dashboard };
+export { ProductsList } from "./ProductsList";
+export { ProductsPage } from "./ProductsPage";
+export { CreateProduct } from "./CreateProduct";
+export { LocationsPage } from "./LocationsPage";
+export { Dashboard } from "./Dashboard/Dashboard";

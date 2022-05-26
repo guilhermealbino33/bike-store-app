@@ -34,46 +34,11 @@ export const GET_PRODUCTS = gql`
   }
 `;
 
-export const PRODUCTS_QUERY = gql`
-  mutation populateProduct($input: ProductInput!) {
-    productCreate(input: $input) {
-      product {
-        title
-      }
-    }
-  }
-`;
-
 export const GET_CHOSEN_PRODUCT = gql`
   query getChosenProduct($id: ID!) {
     product(id: $id) {
       title
       descriptionHtml
-    }
-  }
-`;
-
-export const UPDATE_CHOSEN_PRODUCT = gql`
-  mutation productUpdate($input: ProductInput!) {
-    productUpdate(input: $input) {
-      product {
-        id
-        title
-        descriptionHtml
-      }
-    }
-  }
-`;
-export const GET_LOCATIONS = gql`
-  query {
-    locations(first: 10) {
-      nodes {
-        id
-        name
-        address {
-          address1
-        }
-      }
     }
   }
 `;

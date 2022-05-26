@@ -3,7 +3,7 @@ import { Page, Layout, Banner, Card } from "@shopify/polaris";
 import { Loading } from "@shopify/app-bridge-react";
 
 import { Product } from "../components/Product";
-import { GET_VARIANT_BY_ID } from "../graphql/requestString";
+import { GET_VARIANT_BY_ID } from "../graphql";
 
 export function ProductsPage({ productId }) {
   const { loading, error, data, refetch } = useQuery(GET_VARIANT_BY_ID, {
