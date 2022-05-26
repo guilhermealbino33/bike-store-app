@@ -19,9 +19,9 @@ import { ProductsItem } from "./components/ProductsItem";
 // import { LocationsPage } from "./pages/LocationsPage";
 // import { CreateProduct } from "./pages/CreateProduct";
 // import { ProductsList } from "./pages/ProductsList";
-// import Dashboard from "./pages/Dashboard/index.js";
+import Dashboard from "./pages/Dashboard/index.js";
 import { Navigation } from "./components/Navigation";
-import { CreateProduct, Dashboard, LocationsPage, ProductsList } from "./pages";
+import { CreateProduct, LocationsPage, ProductsList } from "./pages";
 
 export default function App() {
   return (
