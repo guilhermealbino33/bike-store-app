@@ -9,7 +9,7 @@ import {
 } from "@shopify/app-bridge-react";
 import { useMutation } from "@apollo/client";
 
-import { PRODUCTS_QUERY } from "../graphql/requestString";
+import { PRODUCTS_QUERY } from "../graphql/";
 import { userLoggedInFetch } from "../App";
 
 export const CreateProduct = () => {

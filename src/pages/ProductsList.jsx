@@ -14,7 +14,7 @@ import {
 } from "@shopify/polaris";
 import { useLazyQuery } from "@apollo/client";
 
-import { GET_PRODUCTS } from "../graphql/requestString";
+import { GET_PRODUCTS } from "../graphql/";
 import { useCallback, useEffect, useState, useMemo } from "react";
 import {
   Loading,
