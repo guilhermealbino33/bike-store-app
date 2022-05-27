@@ -1,12 +1,21 @@
-<script src="{{ 'inventory-management-form.js' | asset_url }}" defer></script>
+{% comment %} <script src="{{ 'inventory-management-form.js' | asset_url }}" defer></script> {% endcomment %}
+{% for variant in product.variants %}
+    {% assign quantity = variant.inventory_quantity %}
+{% endfor %}
 
+Hello World! 
+Quantity in stock: {{ quantity }}
+<script>
+    console.log("block.settings.product", {{ block.settings.product | json }})
+</script>
 {% schema %}
 {
-    "name": "t:blocks.inventory-management.name",
+    "name": "Inventory Management",
     "templates": ["product"],
     "target": "section",
-    "stylesheet": "star-rating.css",
-    "settings": []
+    "settings": [
+        { "type": "product", "id": "product", "label": "product", "autofill": true }
+    ]
 
 }
 {% endschema %}
